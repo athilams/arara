@@ -36,16 +36,67 @@ function validaUsuario(usuario){
 	return emailValido && senhaValida && senha2 && nome
 }
 
+function validarCPF(cpf) {	
+	cpf = cpf.replace(/[^\d]+/g,'');	
+	if(cpf == '') return false;	
+	// Elimina CPFs invalidos conhecidos	
+	if (cpf.length != 11 || 
+		cpf == "00000000000" || 
+		cpf == "11111111111" || 
+		cpf == "22222222222" || 
+		cpf == "33333333333" || 
+		cpf == "44444444444" || 
+		cpf == "55555555555" || 
+		cpf == "66666666666" || 
+		cpf == "77777777777" || 
+		cpf == "88888888888" || 
+		cpf == "99999999999")
+			return false;		
+	// Valida 1o digito	
+	add = 0;	
+	for (i=0; i < 9; i ++)		
+		add += parseInt(cpf.charAt(i)) * (10 - i);	
+		rev = 11 - (add % 11);	
+		if (rev == 10 || rev == 11)		
+			rev = 0;	
+		if (rev != parseInt(cpf.charAt(9)))		
+			return false;		
+	// Valida 2o digito	
+	add = 0;	
+	for (i = 0; i < 10; i ++)		
+		add += parseInt(cpf.charAt(i)) * (11 - i);	
+	rev = 11 - (add % 11);	
+	if (rev == 10 || rev == 11)	
+		rev = 0;	
+	if (rev != parseInt(cpf.charAt(10)))
+		return false;		
+	return true;   
+}
+
 //pega informacoes do formulario
 router.post('/register', (req, res, next)=>{
 
-	if(validaUsuario(req.body)){
-		knex('usuarios').insert(req.body).then(res.render('login'))
+	if(validaUsuario(req.body) && validarCPF(req.body.cpf) && verificaEmail(req.body.email)){
+		knex('usuarios').insert(req.body).then(res.send('Passou na verificacao'))
 	}
 	else {
 		next(new Error('Informacoes invalidas'))
 	}
 })
+
+function verificaEmail(email){
+	knex('usuarios').select().where('email', email).then((rows)=>{
+			if(rows.length === 0){
+				console.log('criando novo usuario')
+				return true
+
+			}
+			else{
+				console.log('Ja existe um usuario com este Email')
+			}
+		})
+}
+
 
 module.exports = router
 				

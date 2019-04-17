@@ -4,8 +4,6 @@ const pg 			 = require('pg')
 const bodyParser   	 = require ('body-parser')
 const app            = express()
 
-const pool = require('./config/keys.js')
-
 app.use(expressLayouts)
 app.set('view engine', 'ejs')
 
