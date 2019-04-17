@@ -1,0 +1,48 @@
+<div class="container" align="middle">
+    <br>
+    <div class="card bg-light">
+    <article class="card-body mx-auto">
+      <center>
+      <div>
+      <img class="circle" src="../logo.png" height="150" width="150" alt="LogoArara">
+      </div>
+      </center>
+      <h4 class="card-title mt-3 text-center">AraraMakerspace</h4>
+      <p class="text-center">Estamos te aguardando no Makerspace!</p>
+      <form action="/users/register" method="POST">
+      <div class="form-group input-group">
+          <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+          </div>
+          <input class="form-control"
+                 name="email" 
+                 placeholder="Email" 
+                 type="text"
+                 id="email"
+                 value="<%= typeof email != 'undefined' ? email : '' %>"
+          />
+      </div>
+          <div class="form-group input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-id-badge"></i> </span>
+              </div>
+              <input class="form-control"
+                     name="senha" 
+                     placeholder="Password" 
+                     type="text"
+                     id="password"
+                     value="<%= typeof password != 'undefined' ? password : '' %>"
+              />
+          </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block"> Criar conta  </button>
+        </div>
+            <p class="text-center">Não possui uma conta? <a href="../register">Criar conta</a> </p>                                
+    </form>
+    </article>
+
+
+
+</div> 
+
+
